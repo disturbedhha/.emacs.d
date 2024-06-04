@@ -1,4 +1,3 @@
-;; remove tool-bar
 (setq inhibit-startup-screen t)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -18,10 +17,6 @@
 ;; save session
 ;;(desktop-save-mode 1)
 
-;;(defun my-c++-ts-mode-hook ()
-;;  (c++-ts-mode-offset 4))
-;;(add-hook 'c-ts-mode-hook 'my-c++-ts-mode-hook)
-
 ;; keymaps
 (keymap-global-set "C-1" 'previous-buffer)
 (keymap-global-set "C-2" 'next-buffer)
@@ -33,9 +28,29 @@
 (keymap-global-set "C-x C-b" 'switch-to-buffer)
 
 ;; abbrev folder
-(setq-default abbrev-mode t)
+;;(setq-default abbrev-mode t)
 ;;(read-abbrev-file "~/.emacs.d/abbrevs")
-(setq save-abbrevs t)
+;;(setq save-abbrevs t)
+
+;; vertico instead of ivy, ivy gives dissapear c++-mode
+;; auto-complete minibuffer
+(use-package vertico
+  :ensure t
+  :init
+  (vertico-mode)
+
+  ;; Different scroll margin
+  ;; (setq vertico-scroll-margin 0)
+
+  ;; Show more candidates
+   (setq vertico-count 6)
+
+  ;; Grow and shrink the Vertico minibuffer
+  ;; (setq vertico-resize t)
+
+  ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
+  ;; (setq vertico-cycle t)
+  )
 
 ;; melpa
 (require 'package)
@@ -82,20 +97,7 @@
 ;;(use-package smartparens
 ;;  :ensure t)
 
-;; auto-complete minibuffer
-(use-package ivy
-  :ensure t
-  :bind (
-  ;;(global-set-key (kbd "C-x b") 'ivy-switch-buffer)
-  ("C-c b" . 'ivy-switch-buffer)
-  ("C-c v" . 'ivy-push-view)
-  ("C-c V" . 'ivy-pop-view)
-  )
-  :config
-  (ivy-mode 1)
-  (setq ivy-use-virtual-buffers t)
-  (setq enable-recursive-minibuffers t)
-  )
+
 
 (use-package projectile
   :ensure t
@@ -219,68 +221,76 @@
   :after (treemacs projectile)
   :ensure t)
 
-;; set path to zls
-;;(add-to-list 'exec-path "/home/hugh/libraries/zls/")
-;;(setenv "PATH" (concat (getenv "PATH") ":/home/hugh/libraries/zls"))
-
 ;; treesit
 (setq treesit-language-source-alist
       '((c "https://github.com/tree-sitter/tree-sitter-c")
       (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
-      (c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
-      (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-      (html "https://github.com/tree-sitter/tree-sitter-html")
-      (css "https://github.com/tree-sitter/tree-sitter-css")
-      (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
-      (json "https://github.com/tree-sitter/tree-sitter-json")
-      (java "https://github.com/tree-sitter/tree-sitter-java")
-      (typescript "https://github.com/tree-sitter/tree-sitter-typescript")
-      (python "https://github.com/tree-sitter/tree-sitter-python")
+      (rust "https://github.com/tree-sitter/tree-sitter-rust")
       (cmake "https://github.com/uyha/tree-sitter-cmake")
-      ;;(php "https://github.com/tree-sitter/tree-sitter-php") doesn't work
-      ;; zig doesn't work
+      (zig "https://github.com/maxxnino/tree-sitter-zig")
+;;      (c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
+;;      (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+;;      (html "https://github.com/tree-sitter/tree-sitter-html")
+;;      (css "https://github.com/tree-sitter/tree-sitter-css")
+;;      (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
+;;      (json "https://github.com/tree-sitter/tree-sitter-json")
+;;      (java "https://github.com/tree-sitter/tree-sitter-java")
+;;      (typescript "https://github.com/tree-sitter/tree-sitter-typescript")
+;;      (python "https://github.com/tree-sitter/tree-sitter-python")
+;;      ;;(php "https://github.com/tree-sitter/tree-sitter-php") doesn't work
       ))
 
 (setq major-mode-remap-alist
       '((c-mode . c-ts-mode)
 	(c++-mode . c++-ts-mode)
 	(css-mode . css-ts-mode)
-	(csharp-mode . csharp-ts-mode)
-	(js-mode . js-ts-mode)
-	(json-mode . json-ts-mode)
-	(typescript-mode . typescript-ts-mode)
-	(java-mode . java-ts-mode)))
+;;	(csharp-mode . csharp-ts-mode)
+;;	(js-mode . js-ts-mode)
+;;	(json-mode . json-ts-mode)
+;;	(typescript-mode . typescript-ts-mode)
+;;	(java-mode . java-ts-mode)))
+	))
 
-(add-to-list 'exec-path "/home/hugh/libraries/omnisharp-linux-x64-net6.0/")
-(add-to-list 'exec-path "/home/hugh/libraries/jdt-language-server-1.33/bin/")
-(add-to-list 'exec-path "/home/hugh/libraries/node-v20.11.0-linux-x64/lib/node_modules/javascript-typescript-langserver/")
+;;(add-to-list 'exec-path "/home/hugh/libraries/omnisharp-linux-x64-net6.0/")
+;;(add-to-list 'exec-path "/home/hugh/libraries/jdt-language-server-1.33/bin/")
+;;(add-to-list 'exec-path "/home/hugh/libraries/node-v20.11.0-linux-x64/lib/node_modules/javascript-typescript-langserver/")
+(add-to-list 'exec-path "/home/hugh/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin//")
+(add-to-list 'exec-path "/home/hugh/libraries/zls/zig-out/bin/")
 
 ;; "OmniSharp" "-lsp"
 (require 'eglot)
 (add-to-list 'eglot-server-programs '((c++-ts-mode) "clangd-14"))
 (add-to-list 'eglot-server-programs '((c-ts-mode) "clangd-14"))
-(add-to-list 'eglot-server-programs '((csharp-ts-mode) . ("OmniSharp" "-lsp")))
-(add-to-list 'eglot-server-programs '((html-mode) . ("vscode-html-language-server" "--stdio" "-lsp")))
-(add-to-list 'eglot-server-programs '((css-mode) . ("vscode-css-language-server" "--stdio" "-lsp")))
-(add-to-list 'eglot-server-programs '((js-mode) . ("typescript-language-server" "--stdio" )))
-(add-to-list 'eglot-server-programs '((json-mode) . ("vscode-json-language-server" "--stdio" "-lsp")))
-(add-to-list 'eglot-server-programs '((typescript-ts-mode) . ("typescript-language-server" "--stdio")))
-;;(add-to-list 'eglot-server-programs '((python-ts-mode) . ("pyright"))
+(add-to-list 'eglot-server-programs '((rust-ts-mode) . ("rust-analyzer")))
 (add-to-list 'eglot-server-programs '((cmake-ts-mode) "cmake-language-server"))
+(add-to-list 'eglot-server-programs '((zig-mode) "zls"))
+;;(add-to-list 'eglot-server-programs '((csharp-ts-mode) . ("OmniSharp" "-lsp")))
+;;(add-to-list 'eglot-server-programs '((html-mode) . ("vscode-html-language-server" "--stdio" "-lsp")))
+;;(add-to-list 'eglot-server-programs '((css-mode) . ("vscode-css-language-server" "--stdio" "-lsp")))
+;;(add-to-list 'eglot-server-programs '((js-mode) . ("typescript-language-server" "--stdio" )))
+;;(add-to-list 'eglot-server-programs '((json-mode) . ("vscode-json-language-server" "--stdio" "-lsp")))
+;;(add-to-list 'eglot-server-programs '((typescript-ts-mode) . ("typescript-language-server" "--stdio")))
+
+;;(add-to-list 'eglot-server-programs '((python-ts-mode) . ("pyright"))
+
+
 ;;(add-to-list 'eglot-server-programs '((java-ts-mode) . ("jdtls" "--add-modules=ALL-SYSTEM" "--add-opens=java.base/java.util=ALL-UNNAMED" "--add-opens=java.base/java.lang=ALL-UNNAMED"))) ; Adjust for your server
 
 (add-hook 'c-ts-mode-hook 'eglot-ensure)
 (add-hook 'c++-mode-hook 'eglot-ensure)
-(add-hook 'csharp-ts-mode-hook 'eglot-ensure)
-(add-hook 'html-mode-hook 'eglot-ensure)
-(add-hook 'css-mode-hook 'eglot-ensure)
-(add-hook 'js-mode-hook 'eglot-ensure)
-(add-hook 'json-mode-hook 'eglot-ensure)
-(add-hook 'typescript-ts-mode-hook 'eglot-ensure)
-(add-hook 'python-ts-mode-hook 'eglot-ensure)
+(add-hook 'rust-ts-mode-hook 'eglot-ensure)
 (add-hook 'cmake-ts-mode-hook 'eglot-ensure)
-;;(add-hook 'java-ts-mode-hook 'eglot-ensure)
 
+;;(add-hook 'csharp-ts-mode-hook 'eglot-ensure)
+;;(add-hook 'html-mode-hook 'eglot-ensure)
+;;(add-hook 'css-mode-hook 'eglot-ensure)
+;;(add-hook 'js-mode-hook 'eglot-ensure)
+;;(add-hook 'json-mode-hook 'eglot-ensure)
+;;(add-hook 'typescript-ts-mode-hook 'eglot-ensure)
+;;(add-hook 'python-ts-mode-hook 'eglot-ensure)
+
+
+;;(add-hook 'java-ts-mode-hook 'eglot-ensure)
 
 ;; package install web-mode
 ;;(require 'web-mode)
@@ -309,21 +319,4 @@
 ;;  ("C-<" . 'mc/mark-previous-like-this)
 ;;  ("C-c C-<" 'mc/mark-all-like-this)
 ;;  )
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(treemacs-all-the-icons smartparent autopairs poly-html poly-csharp eglot treemacs-projectile treemacs-magit treemacs projectile multiple-cursors npm-mode magit zig-mode company vterm nerd-icons tree-sitter-langs ivy doom-themes)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-
-
-
 
