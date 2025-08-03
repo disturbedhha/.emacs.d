@@ -1,9 +1,9 @@
 (setq inhibit-startup-screen t)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
-							 
+
 ;; display current line number
-(setq column-number-mode t)
+(setq column-number-mode 1)
 (setq line-number-mode t)
 (global-display-line-numbers-mode)
 
@@ -259,8 +259,8 @@
 
 ;; "OmniSharp" "-lsp"
 (require 'eglot)
-(add-to-list 'eglot-server-programs '((c++-ts-mode) "clangd-14"))
-(add-to-list 'eglot-server-programs '((c-ts-mode) "clangd-14"))
+(add-to-list 'eglot-server-programs '((c++-ts-mode) "clangd"))
+(add-to-list 'eglot-server-programs '((c-ts-mode) "clangd"))
 (add-to-list 'eglot-server-programs '((rust-ts-mode) . ("rust-analyzer")))
 (add-to-list 'eglot-server-programs '((cmake-ts-mode) "cmake-language-server"))
 (add-to-list 'eglot-server-programs '((zig-mode) "zls"))
@@ -320,3 +320,15 @@
 ;;  ("C-c C-<" 'mc/mark-all-like-this)
 ;;  )
 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
